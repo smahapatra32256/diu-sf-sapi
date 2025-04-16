@@ -1,0 +1,83 @@
+# Default environment
+env: local
+
+# Service details
+service:
+  group: "${project.groupId}"
+  artifact: "${project.artifactId}"
+  version: "${project.version}"
+  name: "${project.name}"
+
+# The RAML API and autodiscovery
+api:  
+  group: "${restconnector.api.spec.group}"
+  artifact: "${restconnector.api.spec.artifact}"
+  version: "${restconnector.api.spec.version}"
+  spec: "resource::${api.group}:${api.artifact}:${api.version}:raml:zip:api.raml"
+  id: "0"
+  
+
+# DB2 Configuration
+db2:
+  driver: "com.ibm.db2.jcc.DB2Driver"
+  url: "MyURL"
+  user: "MyUser"
+  password: "MyPassword"
+
+ibmctg:
+   servername: "MyServername"
+   host: "MyHost"
+   username: "MyUsername"
+   password: "MyPassword"
+
+   
+  
+cics:
+  idValidation-dsf1-code: "DSF1"
+  address-dsf2-transid: "DSF2"
+  dsf2-motor-vtr: "N"
+  dsf2-addr-ver: "N"
+  
+resttool:
+  logexception: "false"
+  
+cicserror:
+  zero-one-code: "01"
+  zero-one-message:  "Driver's License record not found, please verify the number provided.  If incorrect, reenter the correct driver's license number.  If the number is correct, please call 217-785-1424 so we can manually review your record." 
+  zero-two-code: "02"
+  zero-two-message: "The driver's license number provided has been relocated to a new number.  Please enter the correct driver's license number."
+  zero-three-code: "03"
+  zero-three-message:  "Driver's license record found, but the last 4 digits of the SSN do not match the record.  Please verify the last 4 digits of the SSN entered.  If incorrect, reenter the new number.  If the number is correct, please call 217-785-1424 so we can review the file and resolve the problem." 
+  zero-six-code: "06"
+  zero-six-message: "Our records indicate you do not hold a TVDL.  Please enter the last 4 digits of your SSN and remove the TVDL selection."
+  zero-four-code: "04"
+  zero-four-message: "We are unable to process your transaction, please contact our office at 217-785-1424."
+  zero-seven-code: "07"
+  zero-seven-message: "We are unable to process your address change because you have a driver's license application in progress."
+  zero-eight-code: "08"
+  zero-eight-message: "Driver's license and/or ID card record found,but the date of birth does not match the record.Please verify the date of birth entered. If incorrect,reenter the correct date of birth.If the date of birth is correct,please call 217-785-1424 so we can review the file and resolve the problem."
+  zero-nine-code: "09"
+  zero-nine-message: "Driver's license and/or ID card record found,but the issue date does not match the most current issue on our records.Please verify the issue date(s) entered.If incorrect, reenter the correct issue date.If the issue date is correct,please call 217-785-1424 so we can review the file and resolve the problem."
+  id-zero-one-code : "01"
+  id-zero-one-message : "Identification Card record not found, please verify the number provided. If incorrect, reenter the correct identification number. If the number is correct, please call 217-785-1424 so we can manually review your record."
+  id-zero-two-code : "02"
+  id-zero-two-message: "The identification card number provided has been relocated to a new number. Please enter the correct identification card number."
+  id-zero-three-code : "03"
+  id-zero-three-message: "Identification card record found, but the last 4 digits of the SSN do not match the record. Please verify the last 4 digits of the SSN entered. If incorrect, reenter the new number. If the number is correct, please call 217-785-1424 so we can review the file and resolve the problem."
+  id-zero-four-code : "04"
+  id-zero-four-message : "We are unable to process your transaction, please contact our office at 217-785-1424."
+  id-zero-five-code : "05"
+  id-zero-five-message : "Database Unavailable."
+  zero-zero-message: "The operation was successfully processed"
+  
+  
+apiStatus:
+  successCode: "200"
+  badRequestCode: "400"
+  successMessage: "Message Processed successfully"
+  badRequestMessage: "Bad request"
+  
+  
+db:
+  selectTable: "db2devl.DP_ADDR_CHG_TRANS"
+  updateTable: "db2devl.DP_ADDR_CHG_TRANS"

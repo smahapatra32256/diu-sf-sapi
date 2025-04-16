@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd 
+http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd">
+    <!-- <http:listener-config name="api-httpListenerConfig">
+        <http:listener-connection host="0.0.0.0" port="8081" />
+    </http:listener-config> -->
+	<salesforce:sfdc-config name="Salesforce_Config" doc:name="Salesforce Config" doc:id="e4fd1c58-2870-4d99-a183-7caee43f35ef" >
+		<salesforce:basic-connection username="sunder.mahapatra@redrockinfotech.com" password="Spring202503!@#$" url="https://diu--diupoc.sandbox.my.salesforce.com/services/Soap/u/60.0" securityToken="oslWVNwUm0YbeagtV2XfpIYw"/>
+	</salesforce:sfdc-config>
+	<salesforce:sfdc-config name="source_org" doc:name="Salesforce Config" doc:id="fa15a3d8-34af-4390-be5f-0aca767d7c8b" >
+		<salesforce:config-with-oauth-connection >
+			<salesforce:oauth-authorization-code consumerKey="3MVG9l3R9F9mHOGbowCfkhXsM_CyEEnwZLVKTeEVJbA7wqNqzv54.BTw87rKK2nKSK7H.GGPHIxF8iZgZ2cuQ" consumerSecret="B87676469D4305D3E71EC105B8093447E301D060A9B393B34E3E5F4E23F4B79B"/>
+			<salesforce:oauth-callback-config listenerConfig="HTTP_Listener_config" callbackPath="/oauth2callback" authorizePath="/authorize" externalCallbackUrl="http://localhost:8082/oauth2callback" />
+		</salesforce:config-with-oauth-connection>
+	</salesforce:sfdc-config>
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="ff2d9e78-35a6-4836-9c33-41aa35274d0f" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<!-- [STUDIO:"api-main"]<flow name="api-main" doc:id="ed0d9b3a-88ab-42fb-8ecb-56a009b0b118">
+        <http:listener config-ref="api-httpListenerConfig" path="/api/*">
+            <http:response statusCode="#[vars.httpStatus default 200&#93;">
+                <http:headers><![CDATA[#[vars.outboundHeaders default {}&#93;&#93;&#93;></http:headers>
+            </http:response>
+            <http:error-response statusCode="#[vars.httpStatus default 500&#93;">
+                <http:body><![CDATA[#[payload&#93;&#93;&#93;></http:body>
+                <http:headers><![CDATA[#[vars.outboundHeaders default {}&#93;&#93;&#93;></http:headers>
+            </http:error-response>
+        </http:listener>
+		<apikit:router config-ref="api-config" />
+        <error-handler ref="global-error-handler" />
+    </flow> [STUDIO] -->
+    <!-- [STUDIO:"api-console"]<flow name="api-console" doc:id="6a8802af-9866-4c89-a806-321af21ec601">
+        <http:listener config-ref="api-httpListenerConfig" path="/console/*">
+            <http:response statusCode="#[vars.httpStatus default 200&#93;">
+                <http:headers>#[vars.outboundHeaders default {}&#93;</http:headers>
+            </http:response>
+            <http:error-response statusCode="#[vars.httpStatus default 500&#93;">
+                <http:body>#[payload&#93;</http:body>
+                <http:headers>#[vars.outboundHeaders default {}&#93;</http:headers>
+            </http:error-response>
+        </http:listener>
+        <apikit:console config-ref="api-config" />
+        <error-handler ref="global-error-handler" />
+    </flow> [STUDIO] -->
+    <!-- [STUDIO:"get:\healthcheck:api-config"]<flow name="get:\healthcheck:api-config" doc:id="a213b596-2a04-47f1-9c9b-feaaf1253291">
+        <flow-ref doc:name="get:\healthcheck:api-config" name="healthcheck" doc:id="ccafd942-de2f-4c98-9c12-2d27615609c9"/>
+    </flow> [STUDIO] -->
+	<!-- [STUDIO:"test-flow"]<flow name="test-flow" doc:id="ed908af5-01e4-4fbc-b54f-fa26a57e76d8">
+		<scheduler doc:name="Scheduler" doc:id="3a37dc2d-90d0-4688-b996-5aaa6d8e9ccd">
+			<scheduling-strategy>
+				<fixed-frequency timeUnit="SECONDS" frequency="10000" />
+			</scheduling-strategy>
+		</scheduler>
+		<flow-ref doc:name="Start Logger" doc:id="4b579592-11a4-4725-9cb7-0bb6ea61840c" name="common-start-logger" />
+		<salesforce:query doc:name="Query" doc:id="e154f4c8-559b-4dae-9706-88c8fd8d260a" config-ref="Salesforce_Config">
+			<salesforce:salesforce-query><![CDATA[SELECT QualifiedApiName, DataType, Label, IsCustom 
+FROM FieldDefinition 
+WHERE EntityDefinition.QualifiedApiName = 'Account'
+&#93;&#93;></salesforce:salesforce-query>
+		</salesforce:query>
+		<flow-ref doc:name="End Logger" doc:id="147a5a75-1d4d-473c-97c4-3478f0c45114" name="common-end-logger" />
+		<error-handler ref="global-error-handler" />
+	</flow> [STUDIO] -->
+	<flow name="apiFlow" doc:id="ccff8ce0-e914-4ad8-bd83-b9c7306585eb" >
+		<!-- [STUDIO:"Replay channel listener"]<salesforce:replay-channel-listener replayOption="ONLY_NEW" doc:name="Replay channel listener" doc:id="a667611e-7239-42b6-b254-394dd2b5238f" config-ref="source_org" streamingChannel="/event/CodeBuilder__Alert__e"/> [STUDIO] -->
+		<http:listener doc:name="Listener" doc:id="85a4255b-290b-46e4-9a4b-29819cd3a002" config-ref="HTTP_Listener_config" path="/account"/>
+		<salesforce:query doc:name="Query" doc:id="5bcf7fdf-c777-47b5-8d20-59c0901cb578" config-ref="source_org">
+			<salesforce:salesforce-query ><![CDATA[Select Id from Contact]]></salesforce:salesforce-query>
+		</salesforce:query>
+		<logger level="INFO" doc:name="Logger" doc:id="a04edbfd-9d2f-4b82-857e-820f13eaee71" message="#[payload]"/>
+	</flow>
+	<flow name="apiFlow1" doc:id="02615a6b-7729-41f4-95cd-9343bdf04716" >
+		<set-variable value="demo" doc:name="Set Variable" doc:id="ff883af5-d9a0-4060-8323-91c09d5f5773" variableName="resourceOwnerId"/>
+	</flow>
+
+</mule>

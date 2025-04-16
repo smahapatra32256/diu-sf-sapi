@@ -1,0 +1,17 @@
+{
+	"ipaddress": "123.122.233.102",
+	"department": "DS",
+	"dl": "R20050278083",
+	"dlIssueDate": "2021-07-08",
+	"stateId": "20066066372J",
+	"stateIdIssueDate": "2026-10-01",
+	"dateOfBirth": "1978-03-21",
+	"ssnLast4": "6718",
+	"tvdl": "N",
+	"street": "6 main street",
+	"city": "San Jose12",
+	"state": "IL",
+	"zipCode": "92344",
+	"countyCode": "111",
+	"userAcceptedAddreesValidation": true
+}
